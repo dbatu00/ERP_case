@@ -22,42 +22,7 @@ namespace ERP_case
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtStokKodu_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtStokAdı_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numBirimFiyat_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e) //listeden girdi seçilmesi
         {
             if (listBox1.SelectedItem != null)
             {
@@ -66,7 +31,6 @@ namespace ERP_case
 
                 foreach (string line in lines)
                 {
-                    // Skip empty lines
                     if (string.IsNullOrWhiteSpace(line))
                     {
                         continue;
@@ -86,7 +50,14 @@ namespace ERP_case
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Stok girdilerini açar. Bütün satırları aynı dosyaya yeniden yazar. 
+        /// Eğer yeni girdideki kitap ismiyle stok girdilerindeki bir kitap ismi aynı ise
+        /// o girdinin satırını atlar ve yeni girdiyi ekler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e) //girdi kaydet
         {
             if (!int.TryParse(txtStokKodu.Text, out _) || string.IsNullOrEmpty(txtStokAdı.Text) || numBirimFiyat.Value <= 0)
             {
@@ -99,54 +70,38 @@ namespace ERP_case
                     File.Create(filePath).Close();
                 }
 
-                // Read all lines from the file
                 string[] lines = File.ReadAllLines(filePath);
-
-                // Create a list to store the updated lines
                 List<string> updatedLines = new List<string>();
-
                 bool entryUpdated = false;
 
-                // Iterate through each line
                 foreach (string line in lines)
                 {
-                    string[] values = line.Split(',');
-
-                    // Extract the second value (book name) and trim whitespaces
+                    string[] values = line.Split();
                     string bookName = values[1].Trim();
-
-                    // If the current line corresponds to the selected book name, update the values
+           
                     if (listBox1.SelectedItem != null && bookName == listBox1.SelectedItem.ToString())
                     {
-                        // Update the line with the new values
                         updatedLines.Add($"{txtStokKodu.Text},{txtStokAdı.Text},{numBirimFiyat.Value}");
                         entryUpdated = true;
                     }
                     else
                     {
-                        // Keep the existing line unchanged
                         updatedLines.Add(line);
                     }
                 }
 
-                // If no entry was updated, it means there was no selection, so add the new data
                 if (!entryUpdated)
                 {
                     updatedLines.Add($"{txtStokKodu.Text},{txtStokAdı.Text},{numBirimFiyat.Value}");
                 }
 
-                // Write the updated lines back to the file
                 File.WriteAllLines(filePath, updatedLines.ToArray());
 
                 MessageBox.Show("Kayıt kaydedildi!", "Başarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Clear the form after saving
                 ClearForm();
                 LoadStockDetails();
             }
         }
-
-
 
         private void LoadStockDetails()
         {
@@ -170,8 +125,6 @@ namespace ERP_case
             }
         }
 
-
-
         private void ClearForm()
         {
             txtStokKodu.Text = "";
@@ -181,11 +134,8 @@ namespace ERP_case
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            // Clear the selection in listBox1
             listBox1.ClearSelected();
-
-            // Clear the form
-            ClearForm();          
+            ClearForm();
         }
     }
 }
