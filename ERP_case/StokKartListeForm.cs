@@ -2,12 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace ERP_case
 {
     public partial class StokKartListeForm : Form
     {
         private string filePath = "StockDetails.txt";
+        private string selectedBookName;
 
         public StokKartListeForm()
         {
@@ -57,41 +59,32 @@ namespace ERP_case
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Check if any item is selected in the ListBox
             if (listBox1.SelectedItem != null)
             {
-                // Get the selected item (book name)
-                string selectedBookName = listBox1.SelectedItem.ToString();
-
-                // Read all lines from the file
+                selectedBookName = listBox1.SelectedItem.ToString();
                 string[] lines = File.ReadAllLines(filePath);
 
-                // Iterate through each line
                 foreach (string line in lines)
                 {
-                    // Split the line by commas
-                    string[] values = line.Split(',');
+                    // Skip empty lines
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
 
-                    // Extract the second value (book name) and trim whitespaces
+                    string[] values = line.Split(',');
                     string bookName = values[1].Trim();
 
-                    // If the current line corresponds to the selected book name, fill the textboxes
                     if (bookName == selectedBookName)
                     {
-                        // Extract and fill the textboxes with the details
                         txtStokKodu.Text = values[0].Trim();
                         txtStokAdı.Text = bookName;
-
-                        // Set the numeric value directly as an integer
                         numBirimFiyat.Value = int.Parse(values[2].Trim());
-
-                        // Break the loop once the details are found
                         break;
                     }
                 }
             }
         }
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -101,54 +94,82 @@ namespace ERP_case
             }
             else
             {
-                // Append stock details to the text file
-                using (StreamWriter writer = new StreamWriter(filePath, true))
+                if (!File.Exists(filePath))
                 {
-                    writer.WriteLine($"{txtStokKodu.Text},{txtStokAdı.Text},{numBirimFiyat.Value}");
+                    File.Create(filePath).Close();
                 }
+
+                // Read all lines from the file
+                string[] lines = File.ReadAllLines(filePath);
+
+                // Create a list to store the updated lines
+                List<string> updatedLines = new List<string>();
+
+                bool entryUpdated = false;
+
+                // Iterate through each line
+                foreach (string line in lines)
+                {
+                    string[] values = line.Split(',');
+
+                    // Extract the second value (book name) and trim whitespaces
+                    string bookName = values[1].Trim();
+
+                    // If the current line corresponds to the selected book name, update the values
+                    if (listBox1.SelectedItem != null && bookName == listBox1.SelectedItem.ToString())
+                    {
+                        // Update the line with the new values
+                        updatedLines.Add($"{txtStokKodu.Text},{txtStokAdı.Text},{numBirimFiyat.Value}");
+                        entryUpdated = true;
+                    }
+                    else
+                    {
+                        // Keep the existing line unchanged
+                        updatedLines.Add(line);
+                    }
+                }
+
+                // If no entry was updated, it means there was no selection, so add the new data
+                if (!entryUpdated)
+                {
+                    updatedLines.Add($"{txtStokKodu.Text},{txtStokAdı.Text},{numBirimFiyat.Value}");
+                }
+
+                // Write the updated lines back to the file
+                File.WriteAllLines(filePath, updatedLines.ToArray());
 
                 MessageBox.Show("Kayıt kaydedildi!", "Başarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Clear the form after saving
                 ClearForm();
-
-                // Reload stock details to update the ListBox
                 LoadStockDetails();
             }
         }
 
+
+
         private void LoadStockDetails()
         {
-            // Check if the file exists
             if (!File.Exists(filePath))
             {
-                // If the file doesn't exist, create it
                 File.Create(filePath).Close();
             }
 
-            // Clear the existing items in the ListBox
             listBox1.Items.Clear();
-
-            // Read all lines from the file
             string[] lines = File.ReadAllLines(filePath);
-            
-            // Iterate through each line
+
             foreach (string line in lines)
             {
-                // Split the line by commas
                 string[] values = line.Split(',');
 
-                // Ensure there are at least two values
                 if (values.Length >= 2)
                 {
-                    // Trim leading and trailing whitespaces from the second value
                     string bookName = values[1].Trim();
-
-                    // Add the stock name to the ListBox
                     listBox1.Items.Add(bookName);
                 }
             }
         }
+
 
 
         private void ClearForm()
@@ -158,8 +179,13 @@ namespace ERP_case
             numBirimFiyat.Value = 0;
         }
 
-      
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            // Clear the selection in listBox1
+            listBox1.ClearSelected();
 
-   
+            // Clear the form
+            ClearForm();          
+        }
     }
 }
