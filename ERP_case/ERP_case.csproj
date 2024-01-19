@@ -52,6 +52,12 @@
     <Compile Include="SiparisKayıtlarıForm.Designer.cs">
       <DependentUpon>SiparisKayıtlarıForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SiparisListeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SiparisListeForm.Designer.cs">
+      <DependentUpon>SiparisListeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StokKartListeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SiparisListeForm.resx">
+      <DependentUpon>SiparisListeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StokKartListeForm.resx">
       <DependentUpon>StokKartListeForm.cs</DependentUpon>
     </EmbeddedResource>

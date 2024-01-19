@@ -33,7 +33,12 @@ namespace ERP_case
 
         private void button1_Click(object sender, EventArgs e) // yeni sipariş ekle
         {
+            // Create an instance of the StokKartListeForm
 
+            SiparisListeForm siparisListeForm = new SiparisListeForm();
+
+            // Show the new form
+            siparisListeForm.Show();
         }
     }
 }
