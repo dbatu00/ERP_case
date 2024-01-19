@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.txtStokKodu = new System.Windows.Forms.TextBox();
             this.txtStokAdı = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -40,17 +39,10 @@
             this.numBirimFiyat = new System.Windows.Forms.NumericUpDown();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numBirimFiyat)).BeginInit();
             this.SuspendLayout();
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(33, 44);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(173, 358);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
             // 
             // txtStokKodu
             // 
@@ -125,6 +117,11 @@
             // numBirimFiyat
             // 
             this.numBirimFiyat.Location = new System.Drawing.Point(16, 154);
+            this.numBirimFiyat.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.numBirimFiyat.Name = "numBirimFiyat";
             this.numBirimFiyat.Size = new System.Drawing.Size(198, 22);
             this.numBirimFiyat.TabIndex = 3;
@@ -146,14 +143,24 @@
             this.label1.Text = "Stok Kart Bilgileri";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 16;
+            this.listBox1.Location = new System.Drawing.Point(21, 44);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(176, 276);
+            this.listBox1.TabIndex = 3;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
             // StokKartListeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 450);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.richTextBox1);
             this.Name = "StokKartListeForm";
             this.Text = "Stok Kart Listesi";
             this.Load += new System.EventHandler(this.StokKartListe_Load);
@@ -166,8 +173,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TextBox txtStokKodu;
         private System.Windows.Forms.TextBox txtStokAdı;
         private System.Windows.Forms.Panel panel1;
@@ -178,5 +183,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnKaydet;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
