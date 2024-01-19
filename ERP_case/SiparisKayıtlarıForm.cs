@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ERP_case
+{
+    public partial class SiparisKayıtlarıForm : Form
+    {
+        public SiparisKayıtlarıForm()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e) // stok kart liste
+        {
+            // Create an instance of the StokKartListeForm
+            StokKartListeForm stokKartListeForm = new StokKartListeForm();
+
+            // Show the new form
+            stokKartListeForm.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e) // yeni sipariş ekle
+        {
+
+        }
+    }
+}
