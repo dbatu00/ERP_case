@@ -39,9 +39,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelToplam = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnKaydet = new System.Windows.Forms.Button();
-            this.labelToplam = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -83,6 +83,7 @@
             this.txtEvrakNo.Name = "txtEvrakNo";
             this.txtEvrakNo.Size = new System.Drawing.Size(200, 22);
             this.txtEvrakNo.TabIndex = 3;
+            this.txtEvrakNo.TextChanged += new System.EventHandler(this.txtEvrakNo_TextChanged);
             // 
             // label4
             // 
@@ -99,6 +100,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker1.TabIndex = 6;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // btnYeniSatır
             // 
@@ -153,6 +155,23 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             // 
+            // labelToplam
+            // 
+            this.labelToplam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelToplam.AutoSize = true;
+            this.labelToplam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelToplam.ForeColor = System.Drawing.Color.Red;
+            this.labelToplam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelToplam.Location = new System.Drawing.Point(107, 43);
+            this.labelToplam.Name = "labelToplam";
+            this.labelToplam.Size = new System.Drawing.Size(54, 25);
+            this.labelToplam.TabIndex = 6;
+            this.labelToplam.Text = "0,00";
+            this.labelToplam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelToplam.Click += new System.EventHandler(this.labelToplam_Click);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -173,23 +192,6 @@
             this.btnKaydet.Text = "Sipariş Bilgilerini Kaydet";
             this.btnKaydet.UseVisualStyleBackColor = true;
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
-            // 
-            // labelToplam
-            // 
-            this.labelToplam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelToplam.AutoSize = true;
-            this.labelToplam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelToplam.ForeColor = System.Drawing.Color.Red;
-            this.labelToplam.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelToplam.Location = new System.Drawing.Point(107, 43);
-            this.labelToplam.Name = "labelToplam";
-            this.labelToplam.Size = new System.Drawing.Size(54, 25);
-            this.labelToplam.TabIndex = 6;
-            this.labelToplam.Text = "0,00";
-            this.labelToplam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelToplam.Click += new System.EventHandler(this.labelToplam_Click);
             // 
             // SiparisListeForm
             // 

@@ -8,7 +8,7 @@ namespace ERP_case
 {
     public partial class StokKartListeForm : Form
     {
-        private string filePath = "StockDetails.txt";
+        private string filePath = "Stock Details.txt";
         private string selectedBookName;
 
         public StokKartListeForm()

@@ -80,6 +80,7 @@
     </Compile>
     <EmbeddedResource Include="SiparisListeForm.resx">
       <DependentUpon>SiparisListeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StokKartListeForm.resx">
       <DependentUpon>StokKartListeForm.cs</DependentUpon>
