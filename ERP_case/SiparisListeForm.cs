@@ -14,9 +14,10 @@ namespace ERP_case
     public partial class SiparisListeForm : Form
     {
         private int siraCounter = 1; // Counter for Sıra value
+        private int columnWidth = 155;
         private string stockDetailsFilePath = "Stock Details.txt";
-        private string orderDetailsFilePath = "Order.txt";
         private string ordersFilePath = "Orders.txt";
+        private SiparisKayıtlarıForm siparisKayıtlarıForm;
         private void SiparisListeForm_Load(object sender, EventArgs e)
         {
 
@@ -30,37 +31,29 @@ namespace ERP_case
 
         }
 
-        public SiparisListeForm()
+        public SiparisListeForm(string evrakNo, SiparisKayıtlarıForm _siparisKayıtlarıForm)
         {
             InitializeComponent();
-            PopulateDataGridView();
 
-            // Attach CellValueChanged event
+            siparisKayıtlarıForm = _siparisKayıtlarıForm;
+
+
+            dataGridView1.AllowUserToAddRows = false;
             dataGridView1.CellValueChanged += DataGridView1_CellValueChanged;
 
-
-        }
-
-        private void PopulateDataGridView()
-        {
-            int width = 155;
+            // Add columns to the DataGridView
             dataGridView1.Columns.Add("ColumnSıra", "Sıra");
             dataGridView1.Columns.Add("ColumnStokAdı", "Stok Adı");
             dataGridView1.Columns.Add("ColumnStokKodu", "Stok Kodu");
             dataGridView1.Columns.Add("ColumnBirimFiyat", "Birim Fiyat");
             dataGridView1.Columns.Add("ColumnMiktar", "Miktar");
             dataGridView1.Columns.Add("ColumnAraToplam", "Ara Toplam");
-            dataGridView1.Columns["ColumnSıra"].Width = width;
-            dataGridView1.Columns["ColumnStokAdı"].Width = width;
-            dataGridView1.Columns["ColumnStokKodu"].Width = width;
-            dataGridView1.Columns["ColumnBirimFiyat"].Width = width;
-            dataGridView1.Columns["ColumnMiktar"].Width = width;
-            dataGridView1.Columns["ColumnAraToplam"].Width = width;
-
-           
-            // Disable the additional empty row
-            dataGridView1.AllowUserToAddRows = false;
-
+            dataGridView1.Columns["ColumnSıra"].Width = columnWidth;
+            dataGridView1.Columns["ColumnStokAdı"].Width = columnWidth;
+            dataGridView1.Columns["ColumnStokKodu"].Width = columnWidth;
+            dataGridView1.Columns["ColumnBirimFiyat"].Width = columnWidth;
+            dataGridView1.Columns["ColumnMiktar"].Width = columnWidth;
+            dataGridView1.Columns["ColumnAraToplam"].Width = columnWidth;
 
             // Make all columns read-only except "Stok Kodu" and "Miktar"
             foreach (DataGridViewColumn column in dataGridView1.Columns)
@@ -71,10 +64,55 @@ namespace ERP_case
                 }
             }
 
+            if (evrakNo != "")
+            {
+                txtEvrakNo.Text = evrakNo;
+                FillDataGridViewFromOrderFile($"Order{evrakNo}.txt");
+            }
             
+            
+        }
 
-            // Calculate and update "Ara Toplam" for the initial values
-            UpdateAraToplam();
+        private void FillDataGridViewFromOrderFile(string orderFilePath)
+        {
+            // Check if the order file exists
+            if (File.Exists(orderFilePath))
+            {
+                // Read all lines from the file
+                string[] orderLines = File.ReadAllLines(orderFilePath);
+
+                // Initialize the Sıra counter
+                int siraCounter = 1;
+
+                // Iterate through each line
+                foreach (string orderDetailLine in orderLines)
+                {
+                    // Split the line by commas
+                    string[] orderDetailValues = orderDetailLine.Split(',');
+
+                    // Extract Stok Adı, Stok Kodu, Birim Fiyat, and Miktar values
+                    string stokAdi = orderDetailValues[0].Split(':')[1].Trim();
+                    string stokKodu = orderDetailValues[1].Split(':')[1].Trim();
+                    string birimFiyat = orderDetailValues[2].Split(':')[1].Trim();
+                    string miktar = orderDetailValues[3].Split(':')[1].Trim();
+
+                    // Add a new row to the DataGridView
+                    dataGridView1.Rows.Add(
+                        siraCounter,
+                        stokAdi,
+                        stokKodu,
+                        birimFiyat,
+                        miktar,
+                        0 // Initialize Ara Toplam with 0
+                    );
+
+                    // Increment the Sıra counter
+                    siraCounter++;
+                }
+
+                // Update the "AraToplam" values
+                UpdateAraToplam();
+            }
         }
 
   
@@ -181,6 +219,8 @@ namespace ERP_case
                     // Show a success message
                     MessageBox.Show("Sipariş kaydedildi!", "Başarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    siparisKayıtlarıForm.PopulateOrdersDataGridView();
+            
                 }
                 else
                 {
